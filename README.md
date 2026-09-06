@@ -7,10 +7,10 @@ Built with React, Three.js, and shadcn/ui. No API keys, no accounts, no backend:
 **[Open the atlas](https://atlas.taim.best)**
 
 <p align="center">
-  <img src="docs/female-skeleton.png" alt="The female reference body with its skeleton and leg muscles shown" width="420">
+  <img src="docs/male-reference.png" alt="The male reference body with skeleton, muscles, and vasculature shown" width="420">
 </p>
 
-<p align="center"><sub>The female reference body. Cream bones are its own, grey-blue are borrowed from the male reference, and the leg muscles come from a second female source — each source keeps its own colour.</sub></p>
+<p align="center"><sub>The male reference body, with its skeleton, muscles, and vasculature shown together.</sub></p>
 
 ## Features
 
