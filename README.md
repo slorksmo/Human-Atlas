@@ -4,6 +4,8 @@ An interactive 3D anatomy explorer for the browser. Take an adult human body apa
 
 Built with React, Three.js, and shadcn/ui. No API keys, no accounts, no backend: the whole thing is a static site.
 
+**[Open the atlas](https://atlas.taim.best)**
+
 <p align="center">
   <img src="docs/female-skeleton.png" alt="The female reference body with its skeleton and leg muscles shown" width="420">
 </p>

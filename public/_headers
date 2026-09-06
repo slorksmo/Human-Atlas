@@ -1,0 +1,13 @@
+# Cloudflare Pages reads this file from the root of the deployed site.
+
+# The bundle carries a content hash in its name, so it can be cached forever.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Geometry keeps the same names across rebuilds, so it must stay revalidatable:
+# a day from cache, then served stale while the new copy is fetched behind it.
+/models/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/favicon.svg
+  Cache-Control: public, max-age=604800
