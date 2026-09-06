@@ -4,6 +4,12 @@ An interactive 3D anatomy explorer for the browser. Take an adult human body apa
 
 Built with React, Three.js, and shadcn/ui. No API keys, no accounts, no backend: the whole thing is a static site.
 
+<p align="center">
+  <img src="docs/female-skeleton.png" alt="The female reference body with its skeleton and leg muscles shown" width="420">
+</p>
+
+<p align="center"><sub>The female reference body. Cream bones are its own, grey-blue are borrowed from the male reference, and the leg muscles come from a second female source — each source keeps its own colour.</sub></p>
+
 ## Features
 
 - **Two reference bodies**, adult male and adult female, switched from the header.
@@ -66,7 +72,11 @@ The female source models no skull, ribs, shoulder girdle, arm, or foot bones, an
 
 The female source carries sixteen muscles in total, all in the eye and the knee. `scripts/import-lower-limb.mjs` fills the legs from [Andreassen et al. (2023)](https://doi.org/10.1038/s41597-022-01905-2), who segmented 76 lower-limb muscles from the Visible Human Female and released them under CC BY 4.0.
 
-Both bodies model the hip bone, femur, patella, tibia, and fibula, so each group of muscles is fitted to the bones it actually spans — the hip muscles to the pelvis, the thigh to the femur and patella, the calf to the tibia and fibula. The fit is an axis rotation, a uniform scale, and a translation, so no muscle is distorted. The two women turn out to be nearly the same size: fitted scales run 0.98 to 1.03, and the shared bones agree to within 3 mm at the hip and about 20 mm at the knee and ankle.
+Both bodies model the hip bone, femur, patella, tibia, and fibula, so each group of muscles is fitted to the bones it actually spans — the hip muscles to the pelvis and femur, the thigh to the femur and patella, the calf to the tibia and fibula. The fit is a rotation, a uniform scale, and a translation, so no muscle is distorted, and each group gets its own scale and position so that a difference in limb posture between the two women does not carry through.
+
+The rotation, though, is settled once for the whole import, from the centres of all twelve bones both bodies share. It has to be: an upright bounding box has the same corners however the structure inside it is turned, so fitting box to box cannot tell a pelvis from an upside-down one and will happily report a few millimetres of error either way. Bone centres encode the real arrangement and rule that out.
+
+The two women turn out to be nearly the same size — fitted scales run 0.98 to 1.01 — and the shared bones agree to within 17 to 36 mm depending on the group. The check that matters is anatomical rather than numerical: in this body, gluteus medius ends 7 mm below the top of the pelvis and gluteus maximus 30 mm below, against 6 mm and 36 mm in the donor.
 
 There is no equivalent open female source for the upper limb, so the arms carry bone only. No muscle is taken from the male body: muscle carries the build of the person it came from far too plainly for that to be honest.
 
