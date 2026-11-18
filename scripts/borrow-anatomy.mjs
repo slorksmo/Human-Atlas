@@ -42,7 +42,6 @@ const SKIP=[
  /vertebra|sacrum|coccyx|intervertebral disk|^atlas$|^axis$/i, // the spine is modelled in both
  /manubrium|body of sternum|xiphoid/i,               // the sternum is modelled in both
  /hip bone|femur|tibia\b|fibula\b|patella/i,         // pelvis and leg are modelled in both
- /tooth|gingiva/i,                                   // the mouth is modelled in both
  /thyroid cartilage|cricoid|arytenoid|corniculate|cuneiform cartilage/i, // larynx is modelled in both
  /iliotibial|tibialis|fibularis|levator scapulae|subscapularis/i,        // soft tissue, not bone
 ];
@@ -73,7 +72,10 @@ const BRAIN={label:'brain',
  * model that it attaches to or encloses, which fix its placement. */
 const REGIONS=[
  {id:'skull',label:'Skull and face',
-  take:/frontal bone|parietal bone|temporal bone|occipital bone|sphenoid|ethmoid|vomer|maxilla|palatine bone|nasal bone|zygomatic|mandible|hyoid|alar cartilage/i,
+  // Teeth and jaw gingiva are already classified as skeletal in the donor, and
+  // are rigid with the jaw they sit in, so they ride the skull region's transform
+  // rather than being fitted on their own.
+  take:/frontal bone|parietal bone|temporal bone|occipital bone|sphenoid|ethmoid|vomer|maxilla|palatine bone|nasal bone|zygomatic|mandible|hyoid|alar cartilage| tooth$|gingiva of (upper|lower) jaw/i,
   // The cranium sits on the neck and encloses the brain; both bodies model both,
   // and using them together sizes the vault instead of only placing it.
   anchors:[...spine('Atlas','Axis','Third cervical vertebra','Fourth cervical vertebra','Fifth cervical vertebra','Sixth cervical vertebra','Seventh cervical vertebra'),BRAIN]},
@@ -133,6 +135,24 @@ if(native.length<female.parts.length){
  female.concepts=female.concepts.filter(c=>!String(c.id).startsWith('BORROWED:'));
  female.triangles=native.reduce((n,p)=>n+p.indexCount/3,0);
  delete female.borrowed;
+}
+
+// The generic tooth-row blob the female source provides is superseded once real,
+// individually positioned teeth are borrowed below; keeping both would double the
+// geometry inside the mouth. Idempotent: a second run finds nothing to remove.
+const toothRow=female.concepts.find(c=>c.id==='HRA:tooth_row');
+if(toothRow){
+ const drop=new Set(toothRow.elements);
+ female.parts=female.parts.filter(p=>!drop.has(p.id));
+ // The source names this part of two of its own concepts besides the parent
+ // 'Tooth row': 'Mouth' and 'Digestive system' both list these part ids among
+ // many others. A concept just loses the reference, unless that was its last
+ // member — which is exactly the case for 'Tooth row' and its two per-jaw
+ // leaf concepts, so those disappear rather than being left empty.
+ female.concepts=female.concepts
+  .map(c=>c.elements.some(id=>drop.has(id))?{...c,elements:c.elements.filter(id=>!drop.has(id))}:c)
+  .filter(c=>c.elements.length>0);
+ console.log(`removed the generic tooth row (${drop.size} meshes), superseded by individually borrowed teeth`);
 }
 
 // --- plan ----------------------------------------------------------------

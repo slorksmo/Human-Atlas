@@ -6,6 +6,8 @@ Built with React, Three.js, and shadcn/ui. No API keys, no accounts, no backend:
 
 **[Open the atlas](https://atlas.taim.best)**
 
+The Study preview includes a guided FDI lesson with five 3D teeth and a three-question self-test in English and Arabic. Open `/?tour=fdi-notation&step=1` on the preview server, or add `&lang=ar` for Arabic.
+
 <p align="center">
   <img src="docs/male-reference.png" alt="The male reference body with skeleton, muscles, and vasculature shown" width="420">
 </p>
@@ -21,6 +23,7 @@ Built with React, Three.js, and shadcn/ui. No API keys, no accounts, no backend:
 - **English and Arabic**, with the interface mirroring to right-to-left and search matching either script.
 - **Search by name or source identifier**, in either language.
 - Compact controls and detail panels on phones, in portrait and landscape.
+- **A study section** — ten guided tours and a twenty-question self-test, half on the teeth, jaw bones, TMJ, palate, and salivary glands for a dentistry student, half a first pass at the heart, airway, gut, brain, and skeleton.
 
 The body surface and the reproductive system start switched off on both bodies. They stay listed and turn on in one tap, and searching for a structure shows it whatever its system is set to.
 
@@ -41,8 +44,8 @@ Two reference bodies ship with the viewer. They come from separate research proj
 
 | | Source | Structures | Named concepts | Systems | Triangles | Download |
 | --- | --- | --- | --- | --- | --- | --- |
-| Male | BodyParts3D 4.0 | 2,234 | 3,432 | 15 | 2,288,268 | ~34 MB |
-| Female | Human Reference Atlas v1.10 | 1,220 | 1,439 | 18 | 2,765,492 | ~37 MB |
+| Male | BodyParts3D 4.0 + independent muscle reference | 2,238 | 3,437 | 16 | 2,291,580 | ~34 MB |
+| Female | Human Reference Atlas v1.10 + supplemental anatomy | 1,252 | 1,471 | 19 | 2,774,774 | ~39 MB |
 
 The **male** body is a whole-body reference covering every modeled system, from MRI and anatomical illustration.
 
@@ -68,7 +71,7 @@ Optional WebMCP tools expose anatomy search and inspection to compatible browser
 
 ## Filling the gaps
 
-The female source models no skull, ribs, shoulder girdle, arm, or foot bones, and almost no muscle. Rather than show half a body, two sets of structures fill those gaps. Both are listed as systems of their own, drawn in their own colours, and switched off until asked for — a reader is never shown another body's anatomy without being told.
+The female source models no skull, ribs, shoulder girdle, arm, or foot bones, and almost no muscle; neither body's own source models any muscle of mastication. Rather than show half a body, three sets of structures fill those gaps. All are listed as systems of their own, drawn in their own colours, and switched off until asked for — a reader is never shown another body's anatomy without being told.
 
 ### Leg muscles from a second female body
 
@@ -81,6 +84,12 @@ The rotation, though, is settled once for the whole import, from the centres of 
 The two women turn out to be nearly the same size — fitted scales run 0.98 to 1.01 — and the shared bones agree to within 17 to 36 mm depending on the group. The check that matters is anatomical rather than numerical: in this body, gluteus medius ends 7 mm below the top of the pelvis and gluteus maximus 30 mm below, against 6 mm and 36 mm in the donor.
 
 There is no equivalent open female source for the upper limb, so the arms carry bone only. No muscle is taken from the male body: muscle carries the build of the person it came from far too plainly for that to be honest.
+
+### One muscle of mastication, from a third source
+
+Of the muscles that move the jaw, neither body's own source models any. Several teaching models for them turned up on Sketchfab; all but one are view-only embeds with no licence granted for reuse. The one exception, [*Lateral Pterygoids*](https://sketchfab.com/3d-models/lateral-pterygoids-b240c9decbc9424e848a1eccb7ea0e90) by the University of Dundee, School of Dentistry, is CC BY 4.0 and downloadable, and `scripts/import-pterygoid.mjs` adds it — both heads, both sides — to both bodies as **Lateral pterygoid (reference)**. It is kept separate from the borrowed-bone and donor-muscle systems above because it names one muscle, not a group: nothing stands in here for the masseter, temporalis, medial pterygoid, or buccinator.
+
+The donor file turned out to be rigged for an unrelated jaw-opening animation, and its rest pose was shown to differ from its bind pose — so the four target meshes are placed by proper linear-blend skinning rather than by their own node transform, which would have been wrong. Both bodies already model the mandible and the sphenoid, which the donor also carries around its muscles, so the fit uses the same two-landmark rotation method as the leg muscles above. Fitted scale comes out at 1.06 for both bodies, and the shared bones agree to within 5 mm.
 
 ### Bones from the male body
 
@@ -106,6 +115,18 @@ A bone turns as one rigid piece, about the centre of its rounded joint end, so t
 
 These remain a different person's bones, and a man's. They stand in for shape and position, and carry none of the skeletal differences between the sexes outside the pelvis, which is this body's own. Drop the system once a complete female source exists.
 
+## Study: guided tours and a self-test
+
+`app/study.ts` holds ten guided tours, grouped into **Dental & OMF** (FDI notation, the bones of the jaw, the temporomandibular joint and its one modeled muscle, the salivary glands, the bony palate) and **General anatomy** (the heart's chambers and great vessels, the airway, the digestive tract, the brain's major landmarks, the axial and appendicular skeleton), plus a twenty-question self-test — all reachable from **Study** in the header. Each tour step names a real atlas concept — verified against the concept list the same way every other claim in this project is, so a stale reference fails loudly in development rather than silently pointing at nothing — and stepping through a tour isolates and frames that structure in the scene.
+
+The two bodies model different things, and often name the same structure differently even when both have it — the female source's "Femur (right)" against the male's "right femur" is typical. So every tour checks all of its steps' concepts against whichever body is active and greys itself out, whole, rather than breaking partway through switching bodies. In practice this splits the ten roughly in half: the five dental tours (all but salivary glands) and the heart tour resolve on both bodies; the airway, digestive tract, brain, and skeleton tours currently resolve only on the male body, whose own source is the more complete of the two.
+
+The FDI lesson and its three-question quiz are bilingual. The other lessons and questions are currently in English. A medical professional has yet to review the study content.
+
+Use **Copy link** to share a tour step or an isolated structure with its language and reference body. The browser remembers the last opened step per tour and the last completed score per quiz and reference body.
+
+Direct FDI lesson links download a small geometry pack containing the five teeth used by the lesson. **Open full atlas** loads the rest of the reference body. Run `node scripts/pack-fdi-lesson.mjs` after updating either full reference manifest or the FDI lesson's structure list.
+
 ## Rebuilding the data
 
 Browser-ready geometry is included, so rebuilding is optional. Simplification uses a 0.2% relative error limit per structure throughout.
@@ -125,10 +146,11 @@ node --max-old-space-size=8192 scripts/convert-anatomy-glb.mjs v1.10.glb --suppl
 node --max-old-space-size=8192 scripts/optimize-anatomy.mjs atlas-female.json
 node scripts/borrow-anatomy.mjs
 node scripts/import-lower-limb.mjs path/to/"Final 3D STL Models-stl"
+node scripts/import-pterygoid.mjs path/to/lateral_pterygoids.glb
 node scripts/compress-models.mjs
 ```
 
-Keep that order. `borrow-anatomy` and `import-lower-limb` each append geometry to the end of the packaged chunks, and each replaces whatever its own previous run added, so either can be re-run on its own.
+Keep that order: `import-pterygoid` fits onto the female mandible and sphenoid that `borrow-anatomy` supplies, and it is the only one of the three that writes both bodies rather than the female alone. Each of the three appends geometry to the end of the packaged chunks and replaces whatever its own previous run added, so any one of them can be re-run on its own.
 
 `--supplement` restores the ischium and pubis, which release v1.10 dropped and v1.5 carried; the bone geometry of the two releases is identical in world space, so the restored pieces need no fitting. Naming and system grouping live in `scripts/anatomy-female-systems.mjs`. Passing `--dump` to the converter prints the source scene graph without writing anything.
 
@@ -146,6 +168,7 @@ It queries Wikidata and caches the answers in `scripts/arabic-wikidata.cache.jso
 npm run check
 node scripts/validate-atlas.mjs
 node scripts/validate-atlas.mjs atlas-female.json
+node scripts/pack-fdi-lesson.mjs --check
 node scripts/validate-interactions.mjs
 npm run build
 ```

@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 // Each reference body ships a fixed inventory; a drift in either is a build fault.
-const EXPECTED={'atlas.json':{parts:2234,concepts:3432},'atlas-female.json':{parts:1220,concepts:1439}};
+const EXPECTED={'atlas.json':{parts:2238,concepts:3437},'atlas-female.json':{parts:1252,concepts:1471}};
 const filename=process.argv[2]??'atlas.json';
 const base=new URL('../public/models/',import.meta.url),atlas=JSON.parse(fs.readFileSync(new URL(filename,base)));
 const expected=EXPECTED[filename];assert.ok(expected,`No expected inventory recorded for ${filename}.`);
