@@ -1,0 +1,41 @@
+name: Bug report
+description: Report a problem with the 3D viewer, search, Arabic layout, or a study lesson
+body:
+  - type: input
+    id: url
+    attributes:
+      label: Page or lesson link
+      description: Paste the URL where the problem occurred. Include the lesson step if available.
+      placeholder: https://atlas.taim.best/
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Include the reference body, language, and selected structure or study step if relevant.
+      placeholder: |
+        1. Open the link on the female reference body in Arabic.
+        2. Open the study panel.
+        3. Tap Next.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+      description: Describe what you expected to happen and what happened instead.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Device, OS, and browser version
+      placeholder: iPhone 15, iOS 18, Safari 18
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshot or error message
+      description: Add a screenshot or relevant error message if available. Remove personal information first.

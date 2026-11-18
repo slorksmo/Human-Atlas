@@ -196,4 +196,4 @@ Application code is released under the [MIT License](LICENSE).
 
 Third-party dependencies retain their own licences.
 
-Issues and pull requests are welcome. For interaction problems, please include reproduction steps and browser and device details.
+See the [contribution guide](CONTRIBUTING.md) for local setup, Arabic terminology review, and reporting viewer issues.
