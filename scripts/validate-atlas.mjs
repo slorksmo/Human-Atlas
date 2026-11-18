@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
+import {gunzipSync} from 'node:zlib';
 // Each reference body ships a fixed inventory; a drift in either is a build fault.
 const EXPECTED={'atlas.json':{parts:2238,concepts:3437},'atlas-female.json':{parts:1252,concepts:1471}};
 const filename=process.argv[2]??'atlas.json';
@@ -7,7 +8,16 @@ const base=new URL('../public/models/',import.meta.url),atlas=JSON.parse(fs.read
 const expected=EXPECTED[filename];assert.ok(expected,`No expected inventory recorded for ${filename}.`);
 assert.equal(atlas.parts.length,expected.parts);assert.equal(atlas.concepts.length,expected.concepts);
 const ids=new Set(atlas.parts.map(p=>p.id));assert.equal(ids.size,expected.parts);
-const files=atlas.chunks.map(c=>{const b=fs.readFileSync(new URL(c.url.split('/').pop(),base));assert.equal(b.length,c.bytes);return b;});
+const files=atlas.chunks.map(chunk=>{
+ const buffer=fs.readFileSync(new URL(chunk.url.split('/').pop(),base));
+ assert.equal(buffer.length,chunk.bytes,chunk.url);
+ if(chunk.gzip){
+  const compressed=fs.readFileSync(new URL(chunk.gzip.split('/').pop(),base));
+  if(chunk.gzipBytes!==undefined)assert.equal(compressed.length,chunk.gzipBytes,chunk.gzip);
+  assert.ok(gunzipSync(compressed).equals(buffer),`${chunk.gzip} does not match ${chunk.url}`);
+ }
+ return buffer;
+});
 let tris=0;
 for(const p of atlas.parts){assert.ok(p.name.trim()&&p.name!=='-'&&!p.name.includes('Bounds('));assert.ok(p.conceptId!=='-');assert.ok(p.system);const b=files[p.chunk];assert.ok(p.indices+p.indexCount*4<=b.length);const pos=new Float32Array(b.buffer,b.byteOffset+p.positions,p.vertexCount*3),indices=new Uint32Array(b.buffer,b.byteOffset+p.indices,p.indexCount);assert.ok(indices.length>=3);for(const i of indices)assert.ok(i<p.vertexCount,`${p.id}: invalid vertex`);for(const value of pos)assert.ok(Number.isFinite(value));tris+=p.indexCount/3;}
 for(const c of atlas.concepts){assert.ok(c.elements.length);for(const id of c.elements)assert.ok(ids.has(id),`${c.id}: missing ${id}`);}
