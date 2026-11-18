@@ -34,6 +34,16 @@ node scripts/validate-interactions.mjs
 npm run build
 ```
 
+## Credit prior work
+
+Use **Credits and sources** in your pull request to credit work you built on, including work from forks.
+
+- For an idea or approach you adapted, name the contributor, link to the original commit, pull request, or branch, and describe what you kept or changed.
+- When reusing code or documentation, check that the source license permits reuse and keep required notices. Preserve the original author when bringing over an existing commit.
+- For anatomy assets or data, document the original dataset, license, and adaptations in [ATTRIBUTION.md](public/ATTRIBUTION.md). Credit the fork contributor separately when they found the source or developed the approach you used.
+
+For example, an ankle review could credit [Azevedo79z’s initial alignment work](https://github.com/Azevedo79z/Human-Atlas/blob/feat/female-left-ankle-native-overlay/docs/FEMALE-LEFT-ANKLE-LOCAL-SCREENING-RUN8.md) for the approach and [BoneHub](https://huggingface.co/datasets/BoneHub/visible-human-3d-models) for the source geometry.
+
 ## Change anatomy data
 
 The application code is MIT-licensed. The packaged anatomy data has separate attribution terms. For a geometry import or adaptation, document the dataset and version, creator, source link, reuse license, and any adaptation or registration in [the shipped attribution file](public/ATTRIBUTION.md). Keep each structure traceable to its source.
