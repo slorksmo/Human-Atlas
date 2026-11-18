@@ -49,3 +49,5 @@ For example, an ankle review could credit [Azevedo79z’s initial alignment work
 The application code is MIT-licensed. The packaged anatomy data has separate attribution terms. For a geometry import or adaptation, document the dataset and version, creator, source link, reuse license, and any adaptation or registration in [the shipped attribution file](public/ATTRIBUTION.md). Keep each structure traceable to its source.
 
 If a change affects a full reference manifest or the structures used in the FDI lesson, regenerate the lesson geometry with `node scripts/pack-fdi-lesson.mjs` and commit the matching files.
+
+See the [anatomy research guide](docs/anatomy-research.md) to audit coverage and propose new data sources.

@@ -1,0 +1,32 @@
+{
+  "coverage": [
+    {"name":"Masseter","mesh":"\\bmasseter\\b","concept":"\\bmasseter\\b"},
+    {"name":"Temporalis","mesh":"^(?=.*temporalis)(?!.*(?:fascia|artery|vein|nerve|tendon)).*$","concept":"temporalis"},
+    {"name":"Medial pterygoid","mesh":"medial pterygoid muscle|^(?:left |right )?medial pterygoid(?: \\(left\\)| \\(right\\))?$","concept":"medial pterygoid muscle"},
+    {"name":"Lateral pterygoid muscle","mesh":"lateral pterygoid, (?:inferior|superior) head|lateral pterygoid muscle","concept":"lateral pterygoid"},
+    {"name":"Parotid gland","mesh":"parotid gland","concept":"parotid gland"},
+    {"name":"Submandibular gland","mesh":"submandibular gland","concept":"submandibular gland"},
+    {"name":"Sublingual gland","mesh":"sublingual gland","concept":"sublingual gland"},
+    {"name":"Third permanent molar","mesh":"third (?:secondary |permanent )?molar(?: tooth)?|wisdom tooth","concept":"third (?:secondary |permanent )?molar|wisdom tooth"},
+    {"name":"TMJ articular disc","mesh":"(?:disc|disk).*temporomandibular|temporomandibular.*(?:disc|disk)","concept":"(?:disc|disk).*temporomandibular|temporomandibular.*(?:disc|disk)"},
+    {"name":"Talus and calcaneus","mesh":"^(?:left |right )?(?:talus|calcaneus)(?: \\(left\\)| \\(right\\))?$","concept":"^(?:left |right )?(?:talus|calcaneus)(?: \\(left\\)| \\(right\\))?$"},
+    {"name":"Scapula and clavicle","mesh":"^(?:left |right )?(?:scapula|clavicle)(?: \\(left\\)| \\(right\\))?$","concept":"^(?:left |right )?(?:scapula|clavicle)(?: \\(left\\)| \\(right\\))?$"},
+    {"name":"Biceps brachii and deltoid","mesh":"^(?!.*(?:fascia|artery|vein|nerve|tendon)).*(?:biceps brachii|\\bdeltoid\\b)","concept":"biceps brachii|\\bdeltoid\\b"},
+    {"name":"Gluteus maximus","mesh":"gluteus maximus","concept":"gluteus maximus"},
+    {"name":"Cochlea and bony labyrinth","mesh":"cochlea|bony labyrinth|semicircular canal","concept":"cochlea|bony labyrinth|semicircular canal"},
+    {"name":"Auditory ossicles","mesh":"\\b(?:stapes|incus|malleus|ossicles)\\b","concept":"\\b(?:stapes|incus|malleus|ossicles)\\b"},
+    {"name":"Thoracic duct","mesh":"thoracic duct","concept":"thoracic duct"}
+  ],
+  "watch": [
+    {"id":"hra-library","url":"https://humanatlas.io/assets/content/3d-reference-library-page/data.yaml","format":"sha256"},
+    {"id":"bonehub","url":"https://huggingface.co/api/datasets/BoneHub/visible-human-3d-models","format":"json","field":"sha"},
+    {"id":"spl-head-neck","url":"https://www.openanatomy.org/atlases/nac/head-neck-2016-09/atlasStructure.json","format":"sha256"},
+    {"id":"bony-labyrinth","url":"https://zenodo.org/api/records/3355272","format":"json","field":"updated"},
+    {"id":"atlas-contributor","url":"https://api.github.com/repos/Azevedo79z/Human-Atlas","format":"json","field":"pushed_at"}
+  ],
+  "searches": [
+    {"id":"jaw-and-dentition","query":"(masseter OR temporalis OR pterygoid OR parotid OR \"third molar\") AND (segmentation OR \"surface model\" OR mesh OR STL)"},
+    {"id":"female-skeleton-and-muscle","query":"(\"visible human female\" OR \"female cadaver\") AND (segmentation OR \"surface model\" OR mesh OR STL)"},
+    {"id":"ear-and-lymphatics","query":"(\"bony labyrinth\" OR \"auditory ossicles\" OR \"thoracic duct\" OR \"lymphatic vasculature\") AND (segmentation OR \"surface model\" OR mesh OR STL)"}
+  ]
+}

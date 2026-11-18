@@ -1,0 +1,35 @@
+name: Anatomy research
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 7 3 * *'
+  pull_request:
+    paths:
+      - '.github/workflows/anatomy-research.yml'
+      - 'docs/anatomy-research*'
+      - 'scripts/audit-anatomy.mjs'
+
+permissions:
+  contents: read
+
+jobs:
+  anatomy-inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Audit local coverage
+        run: node scripts/audit-anatomy.mjs --output anatomy-coverage.json
+      - name: Check public sources and discover datasets
+        if: github.event_name != 'pull_request'
+        run: node scripts/audit-anatomy.mjs --discover --baseline docs/anatomy-research-baseline.json --output anatomy-discovery.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: anatomy-research
+          path: anatomy-*.json
+          if-no-files-found: warn
