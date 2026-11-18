@@ -58,6 +58,18 @@ Adaptations: each borrowed region is placed by a least-squares fit of a uniform 
 
 These bones are a placeholder for shape and position. They are one man's anatomy shown on a woman's body: they carry none of the skeletal differences between the sexes outside the pelvis, which is the female source's own, and the borrowed arms keep the donor's posture rather than the posture of the female body surface. They should be removed once a complete female source is available.
 
+## Lateral pterygoid muscle reference
+
+*Lateral Pterygoids*, University of Dundee, School of Dentistry (Sketchfab: @DundeeDental), 2016. CC BY 4.0.
+
+- Source: https://sketchfab.com/3d-models/lateral-pterygoids-b240c9decbc9424e848a1eccb7ea0e90
+- License: https://creativecommons.org/licenses/by/4.0/
+- Package used: GLB, 1k texture variant (texture not used; geometry only)
+
+Neither reference body's own source models any muscle of mastication. Several teaching models for these muscles were found on Sketchfab; this is the only one, among those checked, released for download under an open licence rather than shown as a view-only embed. It supplies the lateral pterygoid — both heads, both sides — and is added to both reference bodies under its own display system, "Lateral pterygoid (reference)", switched off by default. It is not folded into a broader "muscles of mastication" system, since it represents one muscle rather than the group: BodyParts3D, the male source, has none of the others (masseter, temporalis, medial pterygoid, buccinator) and no further open source for them was found.
+
+Adaptations: the donor file's four target meshes are rigged for an unrelated jaw-opening animation; its rest pose was checked against its bind pose and found to differ, so each vertex is placed by linear-blend skinning (its joints' world transforms combined with their inverse bind matrices, per the standard glTF skinning equation) rather than by the mesh node's own transform alone, which would have been wrong. Its geometry is authored in centimetres and converted to metres. Both reference bodies already model the mandible and the sphenoid, which the donor also carries around its muscles, so the rotation between the donor's coordinate frame and each body's own is settled once from those two shared bones' centres — matching the method used for the borrowed skeleton and the donor leg muscles, and for the same reason: a bounding-box fit cannot distinguish a structure from an inverted one, only a fit computed from paired landmark centres can. Fitted scale is 1.06 for the male body and 1.06 for the female; the shared bones agree to within 5 mm for both.
+
 ## Arabic anatomical vocabulary
 
 Arabic names for anatomical structures are taken from **Wikidata**, dedicated to the public domain under **CC0 1.0**, by joining each concept's Foundational Model of Anatomy identifier to the same identifier recorded on Wikidata items.

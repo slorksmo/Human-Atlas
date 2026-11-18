@@ -3,7 +3,7 @@ import {EXPLANATIONS_AR} from './explanations-ar';
 import TERMS_AR from './terms-ar.json';
 import type {Language} from './i18n';
 
-export type SystemId = 'skeletal'|'muscular'|'arterial'|'venous'|'nervous'|'digestive'|'respiratory'|'urinary'|'reproductive'|'lymphatic'|'endocrine'|'integumentary'|'connective'|'sensory'|'cardiac'|'pregnancy'|'brain'|'borrowed'|'donor-muscle';
+export type SystemId = 'skeletal'|'muscular'|'arterial'|'venous'|'nervous'|'digestive'|'respiratory'|'urinary'|'reproductive'|'lymphatic'|'endocrine'|'integumentary'|'connective'|'sensory'|'cardiac'|'pregnancy'|'brain'|'borrowed'|'donor-muscle'|'pterygoid-reference';
 export type Sex = 'male'|'female';
 export const SYSTEMS: {id:SystemId;name:string;color:string;description:string}[] = [
  {id:'skeletal',name:'Skeleton',color:'#e2d9ba',description:'Bones form the supporting framework of the body, protect organs, and provide attachment points for muscles. Their internal tissue also stores minerals and produces blood cells.'},
@@ -24,6 +24,7 @@ export const SYSTEMS: {id:SystemId;name:string;color:string;description:string}[
  {id:'integumentary',name:'Body surface',color:'#ba9b7d',description:'The body surface provides an outer anatomical reference. The integumentary system forms a protective barrier and contributes to sensation and temperature regulation.'},
  {id:'borrowed',name:'Male-derived bones',color:'#9aa7b1',description:'These bones are not part of this reference body. They are copied from the male reference to stand in for structures its source does not model, and each region is scaled and positioned to meet the bones both bodies share, then turned about its joint until it runs along this body’s own body surface. Treat them as a placeholder for shape and position, not as this body’s own anatomy.'},
  {id:'donor-muscle',name:'Leg muscles (donor)',color:'#a8776e',description:'The muscles of the hip, thigh, and lower leg, from a second woman: the Visible Human Female, segmented by Andreassen and colleagues. This reference body’s own source models almost no muscle, and these fill that gap. They are fitted to this body’s own hip bone, femur, patella, tibia, and fibula, but they are another person’s muscles and carry her build, not this one’s.'},
+ {id:'pterygoid-reference',name:'Lateral pterygoid (reference)',color:'#7d9a8c',description:'The lateral pterygoid, both heads and both sides, from a third source: a teaching model by the University of Dundee, School of Dentistry. Neither reference body’s own source models any muscle of mastication, and this is the only one of them with an open licence permitting reuse. It is fitted to this body’s own mandible and sphenoid, but it is one further person’s anatomy, not this body’s, and it stands for one muscle rather than the group.'},
  {id:'connective',name:'Connective tissue',color:'#aec3bb',description:'Cartilage, ligaments, and other connective tissues support, connect, and separate structures. Their roles include stabilizing joints and distributing mechanical loads.'},
 ];
 export interface Part {id:string;name:string;conceptId:string;system:SystemId;chunk:number;positions:number;normals:number;indices:number;vertexCount:number;indexCount:number;bounds:[number[],number[]]}
@@ -86,6 +87,8 @@ export const EXPLANATIONS:Record<string,string> = {
  'gluteus medius':'A fan-shaped hip muscle that holds the pelvis level when the opposite foot leaves the ground.',
  'gluteus minimus':'The deepest of the three gluteal muscles, working with gluteus medius to steady the pelvis in walking.',
  'psoas major':'A deep muscle running from the lumbar spine to the femur. It is the main flexor of the hip.',
+ 'lateral pterygoid, inferior head':'The lower, larger head of the lateral pterygoid, running from the outer pterygoid plate to the neck of the mandible. Acting together, the two sides pull the jaw forward and open it; acting alone, one side swings the jaw to the opposite side, as in chewing.',
+ 'lateral pterygoid, superior head':'The smaller, upper head of the lateral pterygoid, running from the sphenoid to the jaw joint itself. It steadies the joint’s disc as the mouth closes, working opposite to the muscle’s lower head.',
  'iliacus':'A fan of muscle lining the inside of the ilium. With psoas it flexes the hip and steadies the pelvis.',
  'tensor fasciae latae':'A small hip muscle that tightens the iliotibial band down the outside of the thigh.',
  'piriformis':'A deep muscle from the sacrum to the top of the femur, turning the thigh outward. The sciatic nerve passes beside it.',
